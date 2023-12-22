@@ -39,14 +39,14 @@ const getSingleUserFromDB = async (userId: number) => {
     return result;
 };
 
-const updateSingleUserFromDB = async (userId: number, user) => {
+const updateSingleUserFromDB = async (userId: number, userData) => {
     if (!await UserOrderModel.isUserExists(userId)) {
         throw new Error('User not found');
     }
 
     const result = await UserOrderModel.updateOne(
         { userId },
-        user
+        userData
 
 
     )
@@ -61,10 +61,18 @@ const deleteUserFromDB = async (userId: number) => {
     return result;
 };
 
+// const updateSingleOrderFromDB = async (userId: number, newOrder) => {
+
+
+//     const result = await UserOrderModel.findOneAndUpdate({ userId }, { $addToSet: { orders: newOrder } }, { new: true })
+//     return result;
+// }
+
 export const userServices = {
     createUserIntoDB,
     getAllUsersFromDB,
     getSingleUserFromDB,
     updateSingleUserFromDB,
     deleteUserFromDB,
+    // updateSingleOrderFromDB
 };

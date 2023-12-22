@@ -75,17 +75,17 @@ const getSingleUser = async (req: Request, res: Response) => {
 const updateSingleUser = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
-        const { user } = req.body;
+        const { user: userData } = req.body;
 
         // console.log(user);
 
-        const result = await userServices.updateSingleUserFromDB(userId, user);
+        const result = await userServices.updateSingleUserFromDB(userId, userData);
 
 
         res.status(200).json({
             success: true,
             message: 'User updated successfully!',
-            data: user,
+            data: userData,
         });
     } catch (err: any) {
         res.status(500).json({
@@ -121,10 +121,41 @@ const deleteUser = async (req: Request, res: Response) => {
     }
 };
 
+
+// //order controllers
+// const orderUpdate = async (req: Request, res: Response) => {
+//     try {
+//         const { userId } = req.params;
+//         const { newOrder } = req.body;
+
+//         // console.log(user);
+
+//         const result = await userServices.updateSingleOrderFromDB(userId, newOrder);
+
+
+//         res.status(200).json({
+//             "success": true,
+//             "message": "Order created successfully!",
+//             "data": result
+//         });
+//     } catch (err: any) {
+//         res.status(500).json({
+//             success: false,
+//             "message": "User not found",
+//             "error": {
+//                 "code": 404,
+//                 "description": "User not found!"
+//             }
+//         });
+//     }
+// };
+
 export const userControllers = {
     createUser,
     getAllUsers,
     getSingleUser,
     updateSingleUser,
     deleteUser,
+    // orderUpdate,
+
 };
