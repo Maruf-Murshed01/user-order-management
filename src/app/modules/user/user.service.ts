@@ -6,10 +6,7 @@ const createUserIntoDB = async (userData: TUser) => {
     if (await UserOrderModel.isUserExists(userData.userId)) {
         throw new Error('User already exists');
     }
-
     const result = await UserOrderModel.create(userData)
-
-
 
 
     //instance method implementation start
@@ -37,13 +34,16 @@ const getSingleUserFromDB = async (userId: number) => {
         throw new Error('User not found');
     }
 
-
-    const result = await UserOrderModel.findOne({ userId });
+    const result = await UserOrderModel.findOne({ userId }).select({ password: 0 });
     // const result = await UserOrderModel.aggregate([{ $match: { userId: userId } }])
     return result;
 };
 
 const updateSingleUserFromDB = async (userId: number, user) => {
+    if (!await UserOrderModel.isUserExists(userId)) {
+        throw new Error('User not found');
+    }
+
     const result = await UserOrderModel.updateOne(
         { userId },
         user

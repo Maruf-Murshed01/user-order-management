@@ -94,7 +94,6 @@ const userSchema = new Schema<TUser, UserModel>({
     },
     orders: {
         type: [orderSchema],
-        required: [true, 'orders is required'],
     },
 });
 

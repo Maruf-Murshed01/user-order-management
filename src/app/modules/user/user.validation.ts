@@ -64,9 +64,8 @@ const userValidationSchema = Joi.object({
         'array.empty': 'Hobbies is required',
     }),
     address: addressValidationSchema.required(),
-    orders: Joi.array().items(orderValidationSchema).required().messages({
+    orders: Joi.array().items(orderValidationSchema).messages({
         'array.base': 'Orders must be an array',
-        'array.empty': 'Orders is required',
     }),
 });
 
