@@ -16,10 +16,10 @@ Now
 **Endpoints**
 The API exposes the following endpoints:
 
-GET /api/users: Get all users.
-GET /api/users/:userId: Get a specific user by ID.
-POST /api/users: Create a new user.
-PUT /api/users/:userId: Update a user by ID.
-DELETE /api/users/:userId: Delete a user by ID.
+1. GET /api/users: Get all users.
+2. GET /api/users/:userId: Get a specific user by ID.
+3. POST /api/users: Create a new user.
+4. PUT /api/users/:userId: Update a user by ID.
+5. DELETE /api/users/:userId: Delete a user by ID.
 
 #some other endpoints also here which is not mentioned
