@@ -123,32 +123,54 @@ const deleteUser = async (req: Request, res: Response) => {
 
 
 // //order controllers
-// const orderUpdate = async (req: Request, res: Response) => {
-//     try {
-//         const { userId } = req.params;
-//         const { newOrder } = req.body;
+const orderUpdate = async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.params;
+        const { newOrder } = req.body;
 
-//         // console.log(user);
+        // console.log(user);
 
-//         const result = await userServices.updateSingleOrderFromDB(userId, newOrder);
+        const result = await userServices.updateSingleOrderFromDB(userId, newOrder);
 
 
-//         res.status(200).json({
-//             "success": true,
-//             "message": "Order created successfully!",
-//             "data": result
-//         });
-//     } catch (err: any) {
-//         res.status(500).json({
-//             success: false,
-//             "message": "User not found",
-//             "error": {
-//                 "code": 404,
-//                 "description": "User not found!"
-//             }
-//         });
-//     }
-// };
+        res.status(200).json({
+            "success": true,
+            "message": "Order created successfully!",
+            "data": null
+        });
+    } catch (err: any) {
+        res.status(500).json({
+            success: false,
+            "message": "User not found",
+            "error": {
+                "code": 404,
+                "description": "User not found!"
+            }
+        });
+    }
+};
+
+const getSingleUserOrders = async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.params;
+        const result = await userServices.getSingleUserOrdersFromDB(userId);
+
+        res.status(200).json({
+            success: true,
+            message: 'User fetched successfully!',
+            data: result,
+        });
+    } catch (err: any) {
+        res.status(500).json({
+            success: false,
+            "message": "User not found",
+            "error": {
+                "code": 404,
+                "description": "User not found!"
+            }
+        });
+    }
+};
 
 export const userControllers = {
     createUser,
@@ -156,6 +178,7 @@ export const userControllers = {
     getSingleUser,
     updateSingleUser,
     deleteUser,
-    // orderUpdate,
+    orderUpdate,
+    getSingleUserOrders
 
 };

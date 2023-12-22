@@ -14,7 +14,9 @@ router.delete('/users/:userId', userControllers.deleteUser);
 
 // //order route
 
-// router.put('/users/:userId/orders', userControllers.orderUpdate)
+router.put('/users/:userId/orders', userControllers.orderUpdate)
+
+router.get('/users/:userId/orders', userControllers.getSingleUserOrders)
 
 
 

@@ -54,6 +54,10 @@ const updateSingleUserFromDB = async (userId: number, userData) => {
 }
 
 const deleteUserFromDB = async (userId: number) => {
+    if (!await UserOrderModel.isUserExists(userId)) {
+        throw new Error('User not found');
+    }
+
     const result = await UserOrderModel.updateOne(
         { userId },
         { isActive: false },
@@ -61,12 +65,26 @@ const deleteUserFromDB = async (userId: number) => {
     return result;
 };
 
-// const updateSingleOrderFromDB = async (userId: number, newOrder) => {
+const updateSingleOrderFromDB = async (userId: number, newOrder) => {
+    if (!await UserOrderModel.isUserExists(userId)) {
+        throw new Error('User not found');
+    }
 
 
-//     const result = await UserOrderModel.findOneAndUpdate({ userId }, { $addToSet: { orders: newOrder } }, { new: true })
-//     return result;
-// }
+    const result = await UserOrderModel.findOneAndUpdate({ userId }, { $addToSet: { orders: newOrder } }, { new: true })
+    return result;
+}
+
+const getSingleUserOrdersFromDB = async (userId: number) => {
+
+    if (!await UserOrderModel.isUserExists(userId)) {
+        throw new Error('User not found');
+    }
+
+    const result = await UserOrderModel.findOne({ userId }).select({ orders: 1 });
+    // const result = await UserOrderModel.aggregate([{ $match: { userId: userId } }])
+    return result;
+};
 
 export const userServices = {
     createUserIntoDB,
@@ -74,5 +92,6 @@ export const userServices = {
     getSingleUserFromDB,
     updateSingleUserFromDB,
     deleteUserFromDB,
-    // updateSingleOrderFromDB
+    updateSingleOrderFromDB,
+    getSingleUserOrdersFromDB
 };
