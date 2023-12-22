@@ -1,8 +1,10 @@
 import { Request, Response } from 'express';
 import { userServices } from './user.service';
 import userValidationSchema from './user.validation';
-import { number } from 'joi';
 
+//all user controllers
+
+//create a new user
 const createUser = async (req: Request, res: Response) => {
     try {
         const { user: userData } = req.body;
@@ -32,6 +34,8 @@ const createUser = async (req: Request, res: Response) => {
     }
 };
 
+
+//get all users
 const getAllUsers = async (req: Request, res: Response) => {
     try {
         const result = await userServices.getAllUsersFromDB();
@@ -50,6 +54,8 @@ const getAllUsers = async (req: Request, res: Response) => {
     }
 };
 
+
+//get just a single user through id
 const getSingleUser = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
@@ -72,15 +78,14 @@ const getSingleUser = async (req: Request, res: Response) => {
     }
 };
 
+
+//update user data 
 const updateSingleUser = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
         const { user: userData } = req.body;
 
-        // console.log(user);
-
         const result = await userServices.updateSingleUserFromDB(userId, userData);
-
 
         res.status(200).json({
             success: true,
@@ -99,6 +104,8 @@ const updateSingleUser = async (req: Request, res: Response) => {
     }
 };
 
+
+//delete a single user
 const deleteUser = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
@@ -122,13 +129,12 @@ const deleteUser = async (req: Request, res: Response) => {
 };
 
 
-// //order controllers
+//order controllers
+//update a order
 const orderUpdate = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
         const { newOrder } = req.body;
-
-        // console.log(user);
 
         const result = await userServices.updateSingleOrderFromDB(userId, newOrder);
 
@@ -150,6 +156,8 @@ const orderUpdate = async (req: Request, res: Response) => {
     }
 };
 
+
+//get all orders from a single user
 const getSingleUserOrders = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
@@ -172,6 +180,31 @@ const getSingleUserOrders = async (req: Request, res: Response) => {
     }
 };
 
+//get total price from a single user
+const totalPrice = async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.params;
+        const result = await userServices.gettotalOrdersPriceFromDB(userId);
+
+        res.status(200).json({
+            success: true,
+            message: 'Total price calculated successfully!',
+            data: {
+                "totalPrice": result
+            }
+        });
+    } catch (err: any) {
+        res.status(500).json({
+            success: false,
+            "message": "User not found",
+            "error": {
+                "code": 404,
+                "description": "User not found!"
+            }
+        });
+    }
+};
+
 export const userControllers = {
     createUser,
     getAllUsers,
@@ -179,6 +212,6 @@ export const userControllers = {
     updateSingleUser,
     deleteUser,
     orderUpdate,
-    getSingleUserOrders
-
+    getSingleUserOrders,
+    totalPrice
 };

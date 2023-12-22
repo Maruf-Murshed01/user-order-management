@@ -4,8 +4,7 @@ import {
     TName,
     TOrder,
     TUser,
-    UserModel,
-    userMethods,
+    UserModel
 } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../config';
@@ -97,8 +96,10 @@ const userSchema = new Schema<TUser, UserModel>({
     },
 });
 
+
+//mongoose middleware
 userSchema.pre('save', async function (next) {
-    // console.log(this, 'pre hook: we will save the data')
+    //it will change the main password in the database
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const user = this;
     user.password = await bcrypt.hash(
@@ -108,34 +109,18 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
-//post middleware svae
-userSchema.post('save', function (doc, next) {
-    // doc.password = ''
-
-
-
-    // console.log(doc)
-    next();
-    // console.log(this, 'post hook: we saved our data')
-});
-
-
-//query middleware
 userSchema.pre('find', function (next) {
-    // console.log(this)
     this.find({ isActive: { $ne: false } });
     next();
 });
 
-//query middleware
+
 userSchema.pre('findOne', function (next) {
-    // console.log(this)
     this.find({ isActive: { $ne: false } });
     next();
 });
 
 userSchema.pre('aggregate', function (next) {
-    // console.log(this)
     this.pipeline().unshift({ $match: { isActive: { $ne: false } } });
     next();
 });
@@ -143,15 +128,7 @@ userSchema.pre('aggregate', function (next) {
 //creating a custom static method
 userSchema.statics.isUserExists = async function (userId: number) {
     const existingUser = await UserOrderModel.findOne({ userId })
-
     return existingUser;
 }
-
-
-//creating a instance method
-// userSchema.methods.isUserExists = async function (userId: number) {
-//     const existingUser = await UserOrderModel.findOne({ userId: userId });
-//     return existingUser;
-// };
 
 export const UserOrderModel = model<TUser, UserModel>('UserOrder', userSchema);

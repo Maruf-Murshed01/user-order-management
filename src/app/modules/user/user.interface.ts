@@ -30,14 +30,7 @@ export type TUser = {
     orders?: TOrder[];
 };
 
-
-// for creating instance
-// export type userMethods = {
-//     isUserExists(userId: nummber): Promise<TUser | null>;
-// };
-// export type UserModel = Model<TUser, Record<string, never>, userMethods>;
-
-
+//using static
 export interface UserModel extends Model<TUser> {
     isUserExists(userId: number): Promise<TUser | null>
 }
