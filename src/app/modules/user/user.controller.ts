@@ -7,9 +7,9 @@ import userValidationSchema from './user.validation';
 //create a new user
 const createUser = async (req: Request, res: Response) => {
     try {
-        const { user: userData } = req.body;
+        const user = req.body;
 
-        const { error, value } = userValidationSchema.validate(userData);
+        const { error, value } = userValidationSchema.validate(user);
         const result = await userServices.createUserIntoDB(value);
 
         if (error) {
@@ -80,14 +80,14 @@ const getSingleUser = async (req: Request, res: Response) => {
 const updateSingleUser = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
-        const { user: userData } = req.body;
+        const user = req.body;
 
-        const result = await userServices.updateSingleUserFromDB(Number(userId), userData);
+        const result = await userServices.updateSingleUserFromDB(Number(userId), user);
 
         res.status(200).json({
             success: true,
             message: 'User updated successfully!',
-            data: userData,
+            data: user,
         });
     } catch (err: any) {
         res.status(500).json({
@@ -129,7 +129,7 @@ const deleteUser = async (req: Request, res: Response) => {
 const orderUpdate = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
-        const { newOrder } = req.body;
+        const newOrder = req.body;
 
         const result = await userServices.updateSingleOrderFromDB(Number(userId), newOrder);
 

@@ -11,7 +11,10 @@ app.use(cors());
 app.use('/api/users', userRoutes);
 
 app.get('/', (req: Request, res: Response) => {
-    res.send('User data and orders management app');
+    res.json({
+        success: true,
+        message: 'Successfully live this user orders management site'
+    })
 });
 
 export default app;
